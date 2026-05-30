@@ -2,10 +2,22 @@ version: '3'
 
 services:
 
-  web:
-    build: .
+  user-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
 
     ports:
       - "5000:5000"
+      - "5003:5000"
+      
 
-    container_name: event-booking-container
+  admin-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    command: python admin_app.py
+
+    ports:
+      - "5001:5001"

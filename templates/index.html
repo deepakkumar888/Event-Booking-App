@@ -85,11 +85,41 @@
 
 <body>
 
+    <div style="display:flex; justify-content:space-between; align-items:center;">
     <h1>Welcome {{ username }}</h1>
 
-    <h2>Event Booking Platform</h2>
+    <a href="/">
+        <button>Logout</button>
+    </a>
+</div>
 
-    <div class="event-container">
+    <h2>Event Booking Platform</h2>
+<div style="text-align:center; margin-bottom:20px;">
+
+<a href="/bookings">
+
+<button>
+My Bookings
+</button>
+
+</a>
+
+</div>
+<input
+    type="text"
+    id="searchInput"
+    placeholder="Search Events..."
+    onkeyup="searchEvents()"
+    style="
+        width:60%;
+        padding:10px;
+        margin:20px auto;
+        display:block;
+        border-radius:5px;
+        border:none;
+    ">
+
+    <div class="event-container" id="eventContainer">
 
         {% for event in events %}
 
@@ -107,8 +137,23 @@
 
                 <p>{{ event.description }}</p>
 
-                <button>Book Now</button>
+                <form action="/book" method="POST">
 
+<input
+type="hidden"
+name="username"
+value="{{ username }}">
+
+<input
+type="hidden"
+name="event_name"
+value="{{ event.name }}">
+
+<button type="submit">
+Book Now
+</button>
+
+</form>
             </div>
 
         </div>
@@ -116,6 +161,30 @@
         {% endfor %}
 
     </div>
+<script>
+
+function searchEvents() {
+
+    let input =
+        document.getElementById("searchInput").value.toLowerCase();
+
+    let cards =
+        document.getElementsByClassName("event-card");
+
+    for (let i = 0; i < cards.length; i++) {
+
+        let title =
+            cards[i].querySelector("h3").innerText.toLowerCase();
+
+        if (title.includes(input)) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+</script>
 
 </body>
 </html>
